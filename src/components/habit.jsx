@@ -17,15 +17,12 @@ class Habit extends Component {
     // }
     handleIncrement = () => {
       this.props.onIncrement(this.props.habit);
-      this.props.onHabitsCountChange();
     }
     handleDecrement = () => {
       this.props.onDecrement(this.props.habit);
-      this.props.onHabitsCountChange();
     }
     handleDelete = () => {
       this.props.onDelete(this.props.habit);
-      this.props.onHabitsCountChange();
     }
   render() {
       // console.log(this.props);
