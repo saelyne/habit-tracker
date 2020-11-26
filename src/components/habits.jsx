@@ -15,6 +15,7 @@ class Habits extends Component {
     const index = habits.indexOf(habit); //input인 habit의 인덱스 찾기
     habits[index].count ++;
     this.setState({habits}); //same variable name은 이렇게 한번만
+    this.handleHabitsCountChange();
   };
   handleDecrement = (habit) => {
     const habits = [...this.state.habits];
@@ -22,10 +23,12 @@ class Habits extends Component {
     const count = habits[index].count -1;
     habits[index].count = count < 0? 0 : count;
     this.setState({habits});
+    this.handleHabitsCountChange();
   };
   handleDelete = (habit) => {
     const habits = this.state.habits.filter(item => item.id!=habit.id); //돌면서 아이디 다른애들만 복사
     this.setState({habits});
+    this.handleHabitsCountChange();
   };
   handleHabitsCountChange = () => {
     this.props.onHabitsCountChange(this.state.habits);

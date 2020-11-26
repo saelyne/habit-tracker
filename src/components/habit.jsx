@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
 
 class Habit extends Component {
-    // state = {
-    //     count: 0,
-    // };
-    // handleIncrement = event => {
-    //     console.log(event);
-    // }
-    // handleIncrement = () => {
-    //     // state object 안에 있는 count 증가 후 state 업데이트 하기
-    //     this.setState({count: this.state.count + 1});
-    // }
-    // handleDecrement = () => {
-    //     const count = this.state.count - 1;
-    //     this.setState({count: count < 0 ? 0 : count});
-    // }
     handleIncrement = () => {
       this.props.onIncrement(this.props.habit);
-      this.props.onHabitsCountChange();
     }
     handleDecrement = () => {
       this.props.onDecrement(this.props.habit);
-      this.props.onHabitsCountChange();
     }
     handleDelete = () => {
       this.props.onDelete(this.props.habit);
-      this.props.onHabitsCountChange();
     }
   render() {
       // console.log(this.props);
