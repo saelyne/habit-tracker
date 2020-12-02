@@ -17,7 +17,6 @@ class App extends Component {
     return (
       <>
       <Navbar totalCount={this.state.totalCount}></Navbar>
-      <div><input placeholder="Type your habit"></input></div>
       <Habits 
         onHabitsCountChange={this.handleHabitsCountChange}
       />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Habit from './habit';
-
+import HabitAddForm from './habitAddForm';
 
 class Habits extends Component {
   state = {
@@ -32,11 +32,26 @@ class Habits extends Component {
   };
   handleHabitsCountChange = () => {
     this.props.onHabitsCountChange(this.state.habits);
+  };
+
+  handleAdd = name => {
+    const habits = [...this.state.habits, {id: Date.now(), name, count: 0}];
+    this.setState({habits});
+    this.handleHabitsCountChange();
   }
+  handleReset = () => {
+    // const habits = []; // remove all habits
+    const habits = this.state.habits.map(habit => {
+      habit.count = 0;
+      return habit;
+    });
+    this.setState({habits});
+  }
+
   render() {
     return (
       <div className="habits">
-        {/* <HabitAddForm onAdd={this.props.onAdd} /> */}
+        <HabitAddForm onAdd={this.handleAdd} />
         <ul>
           {this.state.habits.map(habit => (
             <Habit 
@@ -44,14 +59,13 @@ class Habits extends Component {
             habit={habit} 
             onIncrement={this.handleIncrement} 
             onDecrement={this.handleDecrement} 
-            onDelete={this.handleDelete}
-            onHabitsCountChange={this.handleHabitsCountChange}
+            onDelete={this.handleDelete} // onDelete{(habit) => {this.props.handleDelete(habit)}}
             />
           ))}
         </ul>
-        {/* <button className="habit-reset" onClick="this.props.onReset">
+        <button className="habit-reset" onClick={this.handleReset}>
           Reset all
-        </button> */}
+        </button>
       </div>
     );
   }
