@@ -12,27 +12,31 @@ class Habits extends Component {
   };
 
   handleIncrement = (habit) => {
-    // 전체 habits 업데이트 - habit: PureComponent시 업데이트 안됨
-    const habits = [...this.state.habits]; //habits에 있는 Object 복사
-    const index = habits.indexOf(habit); //input인 habit의 인덱스 찾기
-    habits[index].count ++;
-    this.setState({habits}); //same variable name은 이렇게 한번만
-    this.handleHabitsCountChange();
+    // 전체 habits 업데이트 - habit: PureComponent시 업데이트 안됨. ...=shallow copy
+    // const habits = [...this.state.habits]; //habits에 있는 Object 복사
+    // const index = habits.indexOf(habit); //input인 habit의 인덱스 찾기
+    // habits[index].count ++;
+    // this.setState({habits}); //same variable name은 이렇게 한번만
+    // this.handleHabitsCountChange();
 
     // 해당하는 habit만 업데이트
-    // const habits = this.state.habits.map(item => {
-    //   if (item.id === habit.id) {
-    //     return {...habit, count: habit.count +1}
-    //   }
-    //   return item;
-    // });
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        return {...habit, count: habit.count +1}
+      }
+      return item;
+    });
+    this.setState({habits}, function () {
+      this.handleHabitsCountChange();
+    });
+    // 아래처럼 하면 안됨
     // this.setState({habits}); 
     // this.handleHabitsCountChange();
   };
 
   handleDecrement = (habit) => {
     // 전체 habits 업데이트
-    // const habits = [...this.state.habits];
+    // const shabits = [...this.state.habits];
     // const index = habits.indexOf(habit);
     // const count = habits[index].count -1;
     // habits[index].count = count < 0? 0 : count;
@@ -47,8 +51,9 @@ class Habits extends Component {
       }
       return item;
     });
-    this.setState({habits}); 
-    this.handleHabitsCountChange();
+    this.setState({habits}, function () {
+      this.handleHabitsCountChange();
+    });
   };
 
   handleDelete = (habit) => {
@@ -76,9 +81,10 @@ class Habits extends Component {
       }
       return item;
     });
-
-    this.setState({habits});
-    this.handleHabitsCountChange();
+    
+    this.setState({habits}, function () {
+      this.handleHabitsCountChange();
+    });
   }
 
   handleHabitsCountChange = () => {
