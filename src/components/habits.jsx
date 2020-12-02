@@ -10,28 +10,51 @@ class Habits extends Component {
       { id: 3, name: 'Coding', count: 0 },
     ],
   };
+
   handleIncrement = (habit) => {
-    const habits = [...this.state.habits]; //habit에 있는 Object 복사
+    // 전체 habits 업데이트 - habit: PureComponent시 업데이트 안됨
+    const habits = [...this.state.habits]; //habits에 있는 Object 복사
     const index = habits.indexOf(habit); //input인 habit의 인덱스 찾기
     habits[index].count ++;
     this.setState({habits}); //same variable name은 이렇게 한번만
     this.handleHabitsCountChange();
+
+    // 해당하는 habit만 업데이트
+    // const habits = this.state.habits.map(item => {
+    //   if (item.id === habit.id) {
+    //     return {...habit, count: habit.count +1}
+    //   }
+    //   return item;
+    // });
+    // this.setState({habits}); 
+    // this.handleHabitsCountChange();
   };
+
   handleDecrement = (habit) => {
-    const habits = [...this.state.habits];
-    const index = habits.indexOf(habit);
-    const count = habits[index].count -1;
-    habits[index].count = count < 0? 0 : count;
-    this.setState({habits});
+    // 전체 habits 업데이트
+    // const habits = [...this.state.habits];
+    // const index = habits.indexOf(habit);
+    // const count = habits[index].count -1;
+    // habits[index].count = count < 0? 0 : count;
+    // this.setState({habits});
+    // this.handleHabitsCountChange();
+
+    // 해당하는 habit만 업데이트
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        const count = habit.count - 1;
+        return {...habit, count: count < 0 ? 0 : count}
+      }
+      return item;
+    });
+    this.setState({habits}); 
     this.handleHabitsCountChange();
   };
+
   handleDelete = (habit) => {
     const habits = this.state.habits.filter(item => item.id!=habit.id); //돌면서 아이디 다른애들만 복사
     this.setState({habits});
     this.handleHabitsCountChange();
-  };
-  handleHabitsCountChange = () => {
-    this.props.onHabitsCountChange(this.state.habits);
   };
 
   handleAdd = name => {
@@ -39,14 +62,28 @@ class Habits extends Component {
     this.setState({habits});
     this.handleHabitsCountChange();
   }
+
   handleReset = () => {
     // const habits = []; // remove all habits
-    const habits = this.state.habits.map(habit => {
-      habit.count = 0;
-      return habit;
+    // const habits = this.state.habits.map(habit => {
+    //   habit.count = 0;
+    //   return habit;
+    // });
+
+    const habits = this.state.habits.map(item => {
+      if (item.count !== 0) {
+        return {...item, count: 0}
+      }
+      return item;
     });
+
     this.setState({habits});
+    this.handleHabitsCountChange();
   }
+
+  handleHabitsCountChange = () => {
+    this.props.onHabitsCountChange(this.state.habits);
+  };
 
   render() {
     console.log("habits");
@@ -58,6 +95,7 @@ class Habits extends Component {
             <Habit 
             key={habit.id} 
             habit={habit} 
+            // count={habit.count}
             onIncrement={this.handleIncrement} 
             onDecrement={this.handleDecrement} 
             onDelete={this.handleDelete} // onDelete{(habit) => {this.props.handleDelete(habit)}}

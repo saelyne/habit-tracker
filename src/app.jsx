@@ -9,6 +9,7 @@ class App extends Component {
     totalCount : 0,
   };
   handleHabitsCountChange = (habits) => {
+    console.log(habits);
     const totalCount = habits.filter(item => item.count>0).length;
     this.setState({totalCount});
   }
