@@ -12,6 +12,7 @@ class HabitAddForm extends Component {
     this.formRef.current.reset();
   };
   render() {
+    console.log("habitAddForm");
     return (
       <form ref={this.formRef} className="add-form" onSubmit={this.onSubmit}>
         <input ref={this.inputRef} type="text" className="add-input" placeholder="Type your habit"></input>

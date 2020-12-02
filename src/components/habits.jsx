@@ -49,6 +49,7 @@ class Habits extends Component {
   }
 
   render() {
+    console.log("habits");
     return (
       <div className="habits">
         <HabitAddForm onAdd={this.handleAdd} />
